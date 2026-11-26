@@ -1,0 +1,13 @@
+{
+  "payments": 10000,
+  "unresolved": 0,
+  "violations": {
+    "overcharged": 0,
+    "success_without_charge": 0,
+    "failed_with_money": 0,
+    "charge_without_payment": 0,
+    "illegal_transitions": 0
+  },
+  "pending_reversals": 0,
+  "runtime_seconds": 1126
+}

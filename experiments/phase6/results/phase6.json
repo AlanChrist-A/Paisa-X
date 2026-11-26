@@ -1,0 +1,46 @@
+{
+  "relayed": true,
+  "feature_worker": {
+    "ignored": 12277,
+    "counted": 2145
+  },
+  "sink_crash_exit_code": 137,
+  "tmp_files_left_by_crash": 1,
+  "sink_files_written": 19,
+  "lake": {
+    "bronze_rows": 16567,
+    "bronze_duplicates": 0,
+    "silver_payments": 2000,
+    "silver_attempts": 2145,
+    "violations": {
+      "postgres_events_missing_from_bronze": 0,
+      "amounts_not_positive": 0,
+      "events_without_payment": 0,
+      "illegal_transitions": 0,
+      "gold_not_matching_silver": 0
+    }
+  },
+  "streaming_vs_batch": {
+    "signals_batch": 2145,
+    "streaming_above_batch": 0,
+    "batch_above_streaming": 0,
+    "late_events": 0,
+    "all_differences_are_late_events": true
+  },
+  "routing_works_with_redis_empty": true,
+  "rebuild": {
+    "ignored": 12277,
+    "counted": 2145
+  },
+  "rebuilt_vs_batch": {
+    "signals_batch": 2145,
+    "streaming_above_batch": 0,
+    "batch_above_streaming": 0,
+    "late_events": 0,
+    "all_differences_are_late_events": true
+  },
+  "ram": [
+    "paisa-kafka 393.5MiB / 800MiB",
+    "paisa-redis 6.316MiB / 64MiB"
+  ]
+}

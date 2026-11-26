@@ -1,0 +1,23 @@
+{
+  "payments_while_kafka_down": {
+    "SUCCEEDED": 838,
+    "FAILED": 162
+  },
+  "events_waiting_while_down": 8218,
+  "caught_up_after_start": true,
+  "catch_up_seconds": 13.6,
+  "caught_up_after_restart": true,
+  "relay_crash_exit_code": 137,
+  "unmarked_after_crash": 1641,
+  "caught_up_after_crash": true,
+  "event_check": {
+    "outbox_rows": 12326,
+    "unpublished": 0,
+    "in_kafka": 12326,
+    "missing": 0,
+    "duplicates": 500,
+    "out_of_order": 0,
+    "sent_to_dlq": 0
+  },
+  "kafka_ram": "340.2MiB / 800MiB"
+}

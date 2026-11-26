@@ -1,0 +1,108 @@
+# WHAT: the final-exam fault scenarios for Phase 8.
+# CAREFUL: do NOT tune any router on this file. Using it early makes the final results unfair.
+# USED BY: load_scenarios("locked", unlock=True), and only for the final locked evaluation.
+# SAFE TO CHANGE: only before any router has been evaluated on it. Any later change must be reported.
+# DIFFERENCE FROM TUNING: other gateways, timings and strengths, plus overlapping faults.
+
+[[full_outage]]  # A different gateway fails for longer.
+kind = "outage"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 90000  # Starts at 1.5 minutes.
+end_ms = 260000  # Ends at about 4.3 minutes.
+
+[[partial_outage]]  # One gateway fails for one bank.
+kind = "outage"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 40000  # Starts at 40 seconds.
+end_ms = 250000  # Ends at about 4.2 minutes.
+bank = "BANK_B"  # Only BANK_B fails.
+
+[[brownout]]  # A stronger slowdown.
+kind = "brownout"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 80000  # Starts at 80 seconds.
+end_ms = 240000  # Ends at 4 minutes.
+value = 9.0  # Latency is 9 times normal.
+
+[[slow_decay]]  # A deeper gradual failure.
+kind = "decay"  # Fault type.
+gateway = "cosmos"  # Affected gateway.
+start_ms = 20000  # Starts at 20 seconds.
+end_ms = 280000  # Ends at about 4.7 minutes.
+value = 0.25  # Health falls to 25% of normal.
+
+[[flapping]]  # Faster flapping.
+kind = "flap"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 45000  # Starts at 45 seconds.
+end_ms = 255000  # Ends at 4.25 minutes.
+value = 8000  # Changes state every 8 seconds.
+
+[[timeout_after_charge]]  # More replies are lost after the charge.
+kind = "timeout_after_charge"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 70000  # Starts at 70 seconds.
+end_ms = 230000  # Ends at about 3.8 minutes.
+value = 0.6  # 60% of affected requests.
+
+[[timeout_in_flight]]  # More requests are delayed.
+kind = "timeout_in_flight"  # Fault type.
+gateway = "cosmos"  # Affected gateway.
+start_ms = 50000  # Starts at 50 seconds.
+end_ms = 210000  # Ends at 3.5 minutes.
+value = 0.6  # 60% of affected requests.
+
+[[webhook_chaos]]  # More lost webhooks.
+kind = "webhook_lost"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.35  # 35% are lost.
+
+[[webhook_chaos]]  # More duplicate webhooks.
+kind = "webhook_duplicate"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.4  # 40% are duplicated.
+
+[[webhook_chaos]]  # More late webhooks.
+kind = "webhook_late"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.4  # 40% are late.
+
+[[webhook_chaos]]  # More reordered webhooks.
+kind = "webhook_reorder"  # Fault type.
+gateway = "cosmos"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.4  # 40% are reordered.
+
+[[retry_storm]]  # Overload during an outage elsewhere.
+kind = "outage"  # Fault type.
+gateway = "alpha"  # Traffic is pushed away from alpha.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 200000  # Ends at about 3.3 minutes.
+
+[[retry_storm]]  # The next gateway then becomes overloaded.
+kind = "overload"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 220000  # Ends at about 3.7 minutes.
+value = 1  # Capacity is 1 request per second.
+
+[[late_success_after_void]]  # The request is delayed.
+kind = "timeout_in_flight"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 40000  # Starts at 40 seconds.
+end_ms = 220000  # Ends at about 3.7 minutes.
+value = 0.6  # 60% of affected requests.
+
+[[late_success_after_void]]  # The gateway claims a void worked, but still charges.
+kind = "void_bug"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 40000  # Starts at 40 seconds.
+end_ms = 280000  # Ends at about 4.7 minutes.
+value = 0.7  # 70% of voids are faulty.

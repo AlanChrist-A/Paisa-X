@@ -1,0 +1,6 @@
+# WHAT: tells Grafana to load every dashboard file in /var/lib/grafana/dashboards.
+apiVersion: 1
+providers:
+  - name: paisa
+    folder: Paisa-X
+    options: {path: /var/lib/grafana/dashboards}

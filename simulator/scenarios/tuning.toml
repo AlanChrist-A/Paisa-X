@@ -1,0 +1,102 @@
+# WHAT: fault scenarios used while building and tuning routers.
+# WHY: tuning on separate scenarios stops us from fitting the router to its final exam.
+# USED BY: load_scenarios("tuning") in simulator/engine.py.
+# SAFE TO CHANGE: yes. Add a scenario with [[its_name]]. Times are milliseconds from the run's start.
+# FIELDS: kind, gateway, start_ms, end_ms, plus optional value, method and bank.
+
+[[full_outage]]  # A gateway stops answering completely.
+kind = "outage"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 180000  # Ends at 3 minutes.
+
+[[partial_outage]]  # A gateway fails only for one payment method.
+kind = "outage"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 200000  # Ends at about 3.3 minutes.
+method = "UPI"  # Only UPI fails.
+
+[[brownout]]  # A gateway still works, but very slowly.
+kind = "brownout"  # Fault type.
+gateway = "cosmos"  # Affected gateway.
+start_ms = 50000  # Starts at 50 seconds.
+end_ms = 220000  # Ends at about 3.7 minutes.
+value = 6.0  # Latency is 6 times normal.
+
+[[slow_decay]]  # A gateway gets gradually worse.
+kind = "decay"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 30000  # Starts at 30 seconds.
+end_ms = 270000  # Ends at 4.5 minutes.
+value = 0.4  # Health falls to 40% of normal.
+
+[[flapping]]  # A gateway keeps going down and up.
+kind = "flap"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 240000  # Ends at 4 minutes.
+value = 15000  # Changes state every 15 seconds.
+
+[[timeout_after_charge]]  # The gateway takes the money, but its reply is lost.
+kind = "timeout_after_charge"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 180000  # Ends at 3 minutes.
+value = 0.4  # 40% of affected requests.
+
+[[timeout_in_flight]]  # The request is delayed and reaches the gateway later.
+kind = "timeout_in_flight"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 180000  # Ends at 3 minutes.
+value = 0.4  # 40% of affected requests.
+
+[[webhook_chaos]]  # Webhooks can be lost.
+kind = "webhook_lost"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.2  # 20% are lost.
+
+[[webhook_chaos]]  # Webhooks can arrive twice.
+kind = "webhook_duplicate"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.3  # 30% are duplicated.
+
+[[webhook_chaos]]  # Webhooks can arrive late.
+kind = "webhook_late"  # Fault type.
+gateway = "cosmos"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.3  # 30% are late.
+
+[[webhook_chaos]]  # Webhooks can arrive in the wrong order.
+kind = "webhook_reorder"  # Fault type.
+gateway = "delta"  # Affected gateway.
+start_ms = 0  # From the start.
+end_ms = 300000  # Until 5 minutes.
+value = 0.3  # 30% are reordered.
+
+[[retry_storm]]  # Too many requests overload a gateway.
+kind = "overload"  # Fault type.
+gateway = "alpha"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 180000  # Ends at 3 minutes.
+value = 1  # Capacity is 1 request per second.
+
+[[late_success_after_void]]  # The request is delayed.
+kind = "timeout_in_flight"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 180000  # Ends at 3 minutes.
+value = 0.5  # 50% of affected requests.
+
+[[late_success_after_void]]  # The gateway claims a void worked, but still charges.
+kind = "void_bug"  # Fault type.
+gateway = "bravo"  # Affected gateway.
+start_ms = 60000  # Starts at 1 minute.
+end_ms = 240000  # Ends at 4 minutes.
+value = 0.5  # 50% of voids are faulty.

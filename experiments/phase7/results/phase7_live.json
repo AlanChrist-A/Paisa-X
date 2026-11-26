@@ -1,0 +1,55 @@
+{
+  "policy": "thompson-v1",
+  "gateway_killed": "alpha",
+  "beliefs": 9,
+  "alpha_beta": {
+    "('alpha', 'UPI')": [
+      28.6,
+      8.0
+    ],
+    "('echo', 'UPI')": [
+      28.7,
+      2.8
+    ],
+    "('alpha', 'CARD')": [
+      16.8,
+      5.5
+    ],
+    "('alpha', 'NETBANKING')": [
+      1.7,
+      2.0
+    ],
+    "('delta', 'NETBANKING')": [
+      40.3,
+      1.0
+    ],
+    "('cosmos', 'CARD')": [
+      62.2,
+      1.0
+    ],
+    "('bravo', 'UPI')": [
+      113.6,
+      4.8
+    ],
+    "('bravo', 'NETBANKING')": [
+      5.8,
+      1.0
+    ],
+    "('delta', 'UPI')": [
+      3.8,
+      1.0
+    ]
+  },
+  "audit": {
+    "payments": 450,
+    "unresolved": 0,
+    "violations": {
+      "overcharged": 0,
+      "success_without_charge": 0,
+      "failed_with_money": 0,
+      "charge_without_payment": 0,
+      "illegal_transitions": 0
+    },
+    "pending_reversals": 0
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "all faults soak": "PASS",
+  "gateway outage": "PASS",
+  "learning router outage": "PASS",
+  "Kafka stop, restart and relay crash": "PASS",
+  "Redis wipe and sink crash": "PASS",
+  "minutes": 17.6
+}

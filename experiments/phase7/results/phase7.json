@@ -1,0 +1,93 @@
+{
+  "rolling": {
+    "success": 0.8403000000000002
+  },
+  "1_thompson": {
+    "half_life": 60,
+    "success_pts": 0.030000000000000027,
+    "success_ci": [
+      -0.054444444444442894,
+      0.11666666666666788
+    ],
+    "fees_change_pct": -1.493407471700241,
+    "latency_change_ms": 2.0823033987318684,
+    "success": 0.8405999999999999
+  },
+  "2_bank_segments": {
+    "success_pts": -0.3138888888888899,
+    "success_ci": [
+      -0.38500000000000134,
+      -0.2450000000000004
+    ],
+    "fees_change_pct": -0.2557108988124816,
+    "latency_change_ms": -0.3239558186000901,
+    "success": 0.8374611111111111,
+    "kept": false
+  },
+  "3_delayed_feedback": {
+    "success_pts": -0.08499999999999841,
+    "success_ci": [
+      -0.15611111111110876,
+      -0.014444444444445426
+    ],
+    "fees_change_pct": -0.1513207965496688,
+    "latency_change_ms": -0.25931209168000086,
+    "success": 0.8397500000000001,
+    "kept": false
+  },
+  "4_explore_cap": {
+    "success_pts": 0.04333333333333411,
+    "success_ci": [
+      -0.041666666666665776,
+      0.1288888888888895
+    ],
+    "fees_change_pct": 3.61992797984165,
+    "latency_change_ms": -30.07127982372754,
+    "success": 0.8410333333333333,
+    "kept": true
+  },
+  "5_fee_latency_utility": {
+    "success_pts": -0.5688888888888891,
+    "success_ci": [
+      -0.6999999999999994,
+      -0.4516666666666672
+    ],
+    "fees_change_pct": -11.319187110498628,
+    "latency_change_ms": 3.3339213718986493,
+    "success": 0.8353444444444446,
+    "kept": false
+  },
+  "final_vs_rolling": {
+    "settings": {
+      "half_life": 60,
+      "explore_cap": 0.1,
+      "costs": false,
+      "feedback": "immediate"
+    },
+    "success_pts": 0.07333333333333414,
+    "success_ci": [
+      -0.028888888888887198,
+      0.18333333333333532
+    ],
+    "fees_change_pct": 2.072460233220286,
+    "latency_change_ms": -27.98897642499567,
+    "success": 0.8410333333333333,
+    "verdict": "NOT BETTER"
+  },
+  "rollback_drill": {
+    "inverted": {
+      "rolled_back": true,
+      "challenger_results": 200,
+      "crashes_caught": 0,
+      "success": 0.8483333333333334
+    },
+    "crashing": {
+      "rolled_back": false,
+      "challenger_results": 0,
+      "crashes_caught": 655,
+      "success": 0.8473333333333334
+    },
+    "rolling_same_world": 0.8473333333333334
+  },
+  "seconds": 489
+}

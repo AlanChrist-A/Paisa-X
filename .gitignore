@@ -1,0 +1,13 @@
+# WHAT: files Git must never save.
+# WHY: these are machine-specific, generated, large, or may contain local passwords.
+.local/
+.venv/
+__pycache__/
+.pytest_cache/
+.hypothesis/
+.env
+
+# Local Parquet history and gold tables (rebuilt from Kafka).
+data/
+# k6 raw summaries (the report in docs/results is kept).
+load/out/

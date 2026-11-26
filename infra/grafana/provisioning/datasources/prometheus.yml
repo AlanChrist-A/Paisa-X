@@ -1,0 +1,8 @@
+# WHAT: connects Grafana to Prometheus automatically, so nothing is clicked by hand.
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    uid: prom  # The dashboard refers to this ID.
+    type: prometheus
+    url: http://prometheus:9090  # Container name inside the Docker network.
+    isDefault: true

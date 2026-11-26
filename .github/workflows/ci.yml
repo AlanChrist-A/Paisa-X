@@ -1,0 +1,43 @@
+# WHAT: GitHub Actions CI. On every push and pull request: lint, the architecture rule, and the full test suite.
+# WHY: a change that breaks money safety must never reach main unnoticed.
+# NOTE: CI uses a Postgres service container instead of the portable Postgres in .local/ (PAISA_PG_URL).
+#       Redis runs as a service too, so the Redis test is not skipped.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read  # Read-only token: CI cannot change the repository.
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16-alpine  # Same major version as local (16).
+        env:
+          POSTGRES_USER: paisa
+          POSTGRES_PASSWORD: ci-only-password  # Throwaway container, never reachable from outside the job.
+          POSTGRES_DB: paisa
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U paisa" --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7.4-alpine
+        ports: ["6379:6379"]
+    env:
+      PAISA_PG_URL: postgresql://paisa:ci-only-password@127.0.0.1:5432/{database}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: uv sync --locked
+      - name: Lint (syntax errors and undefined names)
+        run: uvx ruff check . --select E9,F63,F7,F82
+      - name: Tests (includes the core import rule)
+        run: uv run pytest -q

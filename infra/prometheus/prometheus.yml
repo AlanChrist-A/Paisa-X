@@ -1,0 +1,13 @@
+# WHAT: tells Prometheus which Paisa-X processes to read metrics from.
+# WHY: the apps run on the laptop, outside Docker, so they are reached through host.docker.internal.
+# SAFE TO CHANGE: add a job when a new process serves /metrics.
+global:
+  scrape_interval: 5s  # CHANGE ME: how often to read. Lower is more detailed but uses more RAM.
+
+scrape_configs:
+  - job_name: api  # The Paisa-X API.
+    static_configs: [{targets: ["host.docker.internal:8000"]}]
+  - job_name: recovery  # The Recovery Worker.
+    static_configs: [{targets: ["host.docker.internal:8001"]}]
+  - job_name: relay  # The Outbox Relay.
+    static_configs: [{targets: ["host.docker.internal:8002"]}]

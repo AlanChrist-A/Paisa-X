@@ -1,0 +1,78 @@
+# WHAT: the simulated market: banks, payment methods, gateways, fees and timings.
+# WHY: changing the market should mean editing this file, not the engine's logic.
+# USED BY: simulator/engine.py.
+# SAFE TO CHANGE: every value. Changing one creates a new experiment, so old results stop being comparable.
+# NOTE: every bank, network and gateway here is fictional. Numbers are planning assumptions, not real market data.
+
+banks = ["BANK_A", "BANK_B", "BANK_C", "BANK_D", "BANK_E", "BANK_F"]  # CHANGE ME: customer banks.
+networks = ["NET_X", "NET_Y"]  # CHANGE ME: fictional card networks.
+
+[sim]  # Timing rules for the simulated network.
+webhook_ms = 200  # CHANGE ME: normal delay before a webhook arrives.
+late_webhook_ms = 30000  # CHANGE ME: extra delay when a webhook is "late".
+reorder_ms = 500  # CHANGE ME: how far a PENDING webhook lands after the final one.
+in_flight_ms = 5000  # CHANGE ME: how long a delayed request travels before reaching the gateway.
+
+[methods.UPI]  # UPI: customer approves in an app with a PIN.
+share = 0.60  # CHANGE ME: share of all traffic using this method.
+business_decline = 0.07  # CHANGE ME: chance of a customer-side decline, such as low balance.
+abandon = 0.06  # CHANGE ME: chance the customer never responds.
+customer_ms = [3000, 45000]  # CHANGE ME: fastest and slowest customer response.
+
+[methods.CARD]  # Card: customer enters an OTP (3-D Secure).
+share = 0.25  # CHANGE ME: share of all traffic using this method.
+business_decline = 0.09  # CHANGE ME: chance the issuer declines.
+abandon = 0.05  # CHANGE ME: chance the customer never enters the OTP.
+customer_ms = [5000, 60000]  # CHANGE ME: fastest and slowest customer response.
+
+[methods.NETBANKING]  # Netbanking: customer logs in on the bank's page.
+share = 0.15  # CHANGE ME: share of all traffic using this method.
+business_decline = 0.05  # CHANGE ME: chance the bank declines.
+abandon = 0.15  # CHANGE ME: chance the customer drops off.
+customer_ms = [15000, 120000]  # CHANGE ME: fastest and slowest customer response.
+
+# ADD A GATEWAY: copy one block and rename it. A method listed in `success` is a supported method.
+[gateways.alpha]  # Strong all-rounder with higher fees.
+success = { UPI = 0.97, CARD = 0.95, NETBANKING = 0.93 }  # CHANGE ME: technical success chance by method.
+fee_bps = { UPI = 20, CARD = 200, NETBANKING = 120 }  # CHANGE ME: fee in basis points (100 bps = 1%).
+fee_flat_paise = 200  # CHANGE ME: fixed fee per successful payment.
+latency_ms = 180  # CHANGE ME: normal response time.
+jitter = 0.5  # CHANGE ME: random extra latency, as a share of normal latency.
+networks = ["NET_X", "NET_Y"]  # Supported card networks.
+skip_banks = []  # Banks this gateway cannot serve.
+
+[gateways.bravo]  # Cheap UPI specialist, weaker on cards.
+success = { UPI = 0.96, CARD = 0.89, NETBANKING = 0.90 }  # CHANGE ME: technical success chance by method.
+fee_bps = { UPI = 5, CARD = 170, NETBANKING = 90 }  # CHANGE ME: fee in basis points.
+fee_flat_paise = 100  # CHANGE ME: fixed fee per successful payment.
+latency_ms = 140  # CHANGE ME: normal response time.
+jitter = 0.5  # CHANGE ME: random extra latency.
+networks = ["NET_X"]  # Supported card networks.
+skip_banks = ["BANK_F"]  # Banks this gateway cannot serve.
+
+[gateways.cosmos]  # Card specialist with no UPI.
+success = { CARD = 0.97, NETBANKING = 0.91 }  # CHANGE ME: technical success chance by method.
+fee_bps = { CARD = 220, NETBANKING = 130 }  # CHANGE ME: fee in basis points.
+fee_flat_paise = 250  # CHANGE ME: fixed fee per successful payment.
+latency_ms = 220  # CHANGE ME: normal response time.
+jitter = 0.4  # CHANGE ME: random extra latency.
+networks = ["NET_X", "NET_Y"]  # Supported card networks.
+skip_banks = []  # Banks this gateway cannot serve.
+
+[gateways.delta]  # Netbanking specialist and slower overall.
+success = { UPI = 0.92, CARD = 0.91, NETBANKING = 0.97 }  # CHANGE ME: technical success chance by method.
+fee_bps = { UPI = 10, CARD = 180, NETBANKING = 100 }  # CHANGE ME: fee in basis points.
+fee_flat_paise = 150  # CHANGE ME: fixed fee per successful payment.
+latency_ms = 320  # CHANGE ME: normal response time.
+jitter = 0.7  # CHANGE ME: random extra latency.
+networks = ["NET_Y"]  # Supported card networks.
+skip_banks = ["BANK_E"]  # Banks this gateway cannot serve.
+
+[gateways.echo]  # Budget gateway with no netbanking.
+success = { UPI = 0.90, CARD = 0.87 }  # CHANGE ME: technical success chance by method.
+fee_bps = { UPI = 0, CARD = 150 }  # CHANGE ME: fee in basis points.
+fee_flat_paise = 50  # CHANGE ME: fixed fee per successful payment.
+latency_ms = 260  # CHANGE ME: normal response time.
+jitter = 0.8  # CHANGE ME: random extra latency.
+networks = ["NET_X", "NET_Y"]  # Supported card networks.
+skip_banks = ["BANK_D"]  # Banks this gateway cannot serve.

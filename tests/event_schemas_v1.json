@@ -1,0 +1,6 @@
+{
+  "payment.created": ["amount_paise", "method", "bank"],
+  "payment.state_changed": ["from_state", "to_state"],
+  "attempt.state_changed": ["gateway", "attempt_no", "from_state", "to_state", "failure_class"],
+  "router.decision": ["gateway", "options", "policy_version", "scores", "explored", "fallback"]
+}

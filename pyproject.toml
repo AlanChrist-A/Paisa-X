@@ -1,0 +1,40 @@
+# WHAT: the project's settings file, read by the `uv` package manager and pytest.
+# WHY: anyone can recreate the same Python setup with one command: `uv sync`.
+# SAFE TO CHANGE: add a package to `dependencies` when a new phase truly needs it.
+
+[project]  # Basic facts about this Python project.
+name = "paisa-x"  # The project's package name.
+version = "0.1.0"  # Early version, because the system is still being built.
+requires-python = ">=3.12"  # Python 3.12 is the version installed on this laptop.
+dependencies = [  # Packages the code needs to run.
+    "alembic>=1.13",  # Applies versioned database changes (migrations).
+    "confluent-kafka>=2.6",  # Kafka client used by the Outbox Relay and event checker.
+    "duckdb>=1.1",  # SQL engine that reads Parquet files for the bronze, silver and gold layers.
+    "fastapi>=0.115",  # Web framework for the Paisa-X API and Gateway Simulator.
+    "httpx>=0.27",  # HTTP client that sends webhooks and powers API tests.
+    "matplotlib>=3.9",  # Draws the Phase 0 result chart.
+    "numpy>=2.0",  # Fast maths on arrays of numbers.
+    "prometheus-client>=0.21",  # Exposes /metrics for Prometheus (Phase 9).
+    "psycopg[binary,pool]>=3.2",  # Talks to Postgres using plain SQL, with reusable connections.
+    "pyarrow>=18",  # Writes Parquet history files.
+    "redis>=5.0",  # Client for the Redis fast-state store.
+    "sqlalchemy>=2.0",  # Required by Alembic only. Paisa-X queries use plain SQL.
+    "uvicorn>=0.30",  # Web server that runs the FastAPI app.
+]
+
+[project.scripts]  # Commands available after `uv sync`.
+paisa = "paisa.cli:main"  # Lets you run `uv run paisa audit`, for example.
+
+[build-system]  # How Python packages the code inside src/.
+requires = ["hatchling"]  # The packaging tool.
+build-backend = "hatchling.build"  # The entry point of that tool.
+
+[tool.hatch.build.targets.wheel]  # Settings for building the package.
+packages = ["src/paisa"]  # The application package.
+
+[dependency-groups]  # Packages needed only by developers.
+dev = ["hypothesis>=4.0", "pytest>=8.0"]  # Hypothesis tries many random cases, and pytest runs tests.
+
+[tool.pytest.ini_options]  # Settings for pytest.
+testpaths = ["tests"]  # Look for tests only in the tests folder.
+pythonpath = [".", "src"]  # Let tests import from the project root and the app package.

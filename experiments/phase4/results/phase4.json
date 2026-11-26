@@ -1,0 +1,23 @@
+{
+  "decision_latency": {
+    "p50_microseconds": 36.6,
+    "p99_microseconds": 223.1
+  },
+  "outage": {
+    "gateway_killed": "alpha",
+    "share_before": 0.78,
+    "reroute_seconds": 0,
+    "audit": {
+      "payments": 450,
+      "unresolved": 0,
+      "violations": {
+        "overcharged": 0,
+        "success_without_charge": 0,
+        "failed_with_money": 0,
+        "charge_without_payment": 0,
+        "illegal_transitions": 0
+      },
+      "pending_reversals": 0
+    }
+  }
+}
